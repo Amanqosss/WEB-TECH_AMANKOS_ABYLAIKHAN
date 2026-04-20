@@ -1,0 +1,414 @@
+-- ============================================================
+-- Assignment 2: Creating a Physical Database
+-- Domain: Car Rental Management System
+-- Author: [Your Name], [Your Group]
+-- ============================================================
+
+-- Create a domain-specific schema
+CREATE SCHEMA IF NOT EXISTS car_rental;
+
+SET search_path TO car_rental;
+
+
+-- ============================================================
+-- TABLE DEFINITIONS (CREATE TABLE IF NOT EXISTS)
+-- ============================================================
+
+-- Table: brands
+-- Stores car manufacturer brands (e.g. Toyota, BMW)
+-- VARCHAR(50) chosen — brand names rarely exceed 50 chars
+CREATE TABLE IF NOT EXISTS car_rental.brands (
+    brand_id    SERIAL PRIMARY KEY,
+    brand_name  VARCHAR(20) NOT NULL,                           -- NOT NULL: every brand must have a name
+    CONSTRAINT uq_brand_name UNIQUE (brand_name)               -- UNIQUE: no duplicate brand names
+);
+
+-- Table: vehicle_types
+-- Stores vehicle categories: sedan, SUV, truck, etc.
+CREATE TABLE IF NOT EXISTS car_rental.vehicle_types (
+    type_id     SERIAL PRIMARY KEY,
+    type_name   VARCHAR(50) NOT NULL,
+    CONSTRAINT uq_type_name UNIQUE (type_name)
+);
+
+-- Table: rental_locations
+-- Physical locations where vehicles are rented/returned
+CREATE TABLE IF NOT EXISTS car_rental.rental_locations (
+    location_id     SERIAL PRIMARY KEY,
+    location_name   VARCHAR(50) NOT NULL,
+    address         TEXT
+);
+
+-- Table: models
+-- Car models tied to a brand (e.g. Toyota Camry)
+-- VARCHAR(100) for model_name — some full model names are long
+CREATE TABLE IF NOT EXISTS car_rental.models (
+    model_id    SERIAL PRIMARY KEY,
+    brand_id    INT NOT NULL,
+    model_name  VARCHAR(100) NOT NULL,
+    CONSTRAINT fk_model_brand FOREIGN KEY (brand_id) REFERENCES car_rental.brands(brand_id)
+);
+
+-- Table: vehicles
+-- Individual vehicles available for rental
+-- status DEFAULT 'available' — sensible initial state for a new vehicle
+CREATE TABLE IF NOT EXISTS car_rental.vehicles (
+    vehicle_id      SERIAL PRIMARY KEY,
+    type_id         INT NOT NULL,
+    location_id     INT NOT NULL,
+    model_id        INT NOT NULL,
+    year            INT NOT NULL,
+    license_plate   VARCHAR(20) NOT NULL,
+    daily_rate      NUMERIC(10,2) NOT NULL,                    -- price per day
+    status          VARCHAR(20) NOT NULL DEFAULT 'available',  -- DEFAULT value
+    CONSTRAINT fk_vehicle_type      FOREIGN KEY (type_id)     REFERENCES car_rental.vehicle_types(type_id),
+    CONSTRAINT fk_vehicle_location  FOREIGN KEY (location_id) REFERENCES car_rental.rental_locations(location_id),
+    CONSTRAINT fk_vehicle_model     FOREIGN KEY (model_id)    REFERENCES car_rental.models(model_id),
+    CONSTRAINT chk_vehicle_status   CHECK (status IN ('available', 'rented', 'maintenance')), -- specific options
+    CONSTRAINT chk_daily_rate       CHECK (daily_rate >= 0),   -- measured value cannot be negative
+    CONSTRAINT uq_license_plate     UNIQUE (license_plate)     -- UNIQUE: no two vehicles share a plate
+);
+
+-- Table: customers
+-- People who rent vehicles
+CREATE TABLE IF NOT EXISTS car_rental.customers (
+    customer_id     SERIAL PRIMARY KEY,
+    surname         VARCHAR(20) NOT NULL,
+    name            VARCHAR(20) NOT NULL,                      -- NOT NULL constraint
+    email           VARCHAR(100) NOT NULL,
+    phone           VARCHAR(20),
+    driver_license  VARCHAR(50) NOT NULL,
+    CONSTRAINT uq_customer_email    UNIQUE (email),
+    CONSTRAINT uq_driver_license    UNIQUE (driver_license)
+);
+
+-- Table: employees
+-- Staff working at rental locations
+CREATE TABLE IF NOT EXISTS car_rental.employees (
+    employee_id     SERIAL PRIMARY KEY,
+    location_id     INT,
+    surname         VARCHAR(20) NOT NULL,
+    name            VARCHAR(20) NOT NULL,
+    position        VARCHAR(20),
+    salary          NUMERIC(10,2) NOT NULL DEFAULT 0,
+    CONSTRAINT fk_employee_location FOREIGN KEY (location_id) REFERENCES car_rental.rental_locations(location_id),
+    CONSTRAINT chk_employee_salary  CHECK (salary >= 0)        -- salary cannot be negative
+);
+
+-- Table: reservations
+-- A customer reserves a vehicle before formal rental
+-- reservation_date DEFAULT CURRENT_DATE — auto-set to today
+CREATE TABLE IF NOT EXISTS car_rental.reservations (
+    reservation_id      SERIAL PRIMARY KEY,
+    customer_id         INT NOT NULL,
+    vehicle_id          INT NOT NULL,
+    reservation_date    DATE NOT NULL DEFAULT CURRENT_DATE,    -- DEFAULT value
+    status              VARCHAR(50) DEFAULT 'pending',
+    CONSTRAINT fk_res_customer  FOREIGN KEY (customer_id) REFERENCES car_rental.customers(customer_id),
+    CONSTRAINT fk_res_vehicle   FOREIGN KEY (vehicle_id)  REFERENCES car_rental.vehicles(vehicle_id),
+    CONSTRAINT chk_res_date     CHECK (reservation_date >= '2026-01-01') -- date must be after 2026-01-01
+);
+
+-- Table: rentals
+-- Formal rental agreement: customer, vehicle, employee, dates
+CREATE TABLE IF NOT EXISTS car_rental.rentals (
+    rental_id       SERIAL PRIMARY KEY,
+    customer_id     INT NOT NULL,
+    vehicle_id      INT NOT NULL,
+    employee_id     INT,
+    start_date      DATE NOT NULL,
+    end_date        DATE,
+    CONSTRAINT fk_rental_customer   FOREIGN KEY (customer_id)  REFERENCES car_rental.customers(customer_id),
+    CONSTRAINT fk_rental_vehicle    FOREIGN KEY (vehicle_id)   REFERENCES car_rental.vehicles(vehicle_id),
+    CONSTRAINT fk_rental_employee   FOREIGN KEY (employee_id)  REFERENCES car_rental.employees(employee_id),
+    CONSTRAINT chk_rental_dates     CHECK (end_date IS NULL OR end_date >= start_date)
+);
+
+-- Table: payments
+-- Payments linked to a rental
+-- tax GENERATED ALWAYS AS 12% of amount — computed automatically, never stored manually
+CREATE TABLE IF NOT EXISTS car_rental.payments (
+    payment_id      SERIAL PRIMARY KEY,
+    rental_id       INT NOT NULL,
+    amount          NUMERIC(10,2) NOT NULL,
+    tax             NUMERIC(10,2) GENERATED ALWAYS AS (amount * 0.12) STORED, -- GENERATED column: 12% VAT
+    payment_date    DATE NOT NULL DEFAULT CURRENT_DATE,        -- DEFAULT value
+    method          VARCHAR(10),
+    CONSTRAINT fk_payment_rental    FOREIGN KEY (rental_id)    REFERENCES car_rental.rentals(rental_id),
+    CONSTRAINT chk_amount_positive  CHECK (amount > 0),        -- amount cannot be negative
+    CONSTRAINT chk_payment_method   CHECK (method IN ('cash', 'card', 'online'))
+);
+
+-- Table: vehicle_conditions
+-- Condition checks on a vehicle (before/after rental)
+CREATE TABLE IF NOT EXISTS car_rental.vehicle_conditions (
+    condition_id        SERIAL PRIMARY KEY,
+    vehicle_id          INT NOT NULL,
+    check_date          DATE NOT NULL,
+    condition_status    VARCHAR(50),
+    notes               TEXT,
+    CONSTRAINT fk_cond_vehicle  FOREIGN KEY (vehicle_id) REFERENCES car_rental.vehicles(vehicle_id),
+    CONSTRAINT chk_cond_date    CHECK (check_date >= '2026-01-01') -- date after 2026-01-01
+);
+
+-- Table: maintenance_records
+-- Maintenance history for each vehicle
+CREATE TABLE IF NOT EXISTS car_rental.maintenance_records (
+    maintenance_id      SERIAL PRIMARY KEY,
+    vehicle_id          INT NOT NULL,
+    check_date          DATE NOT NULL,
+    condition_status    VARCHAR(50),
+    notes               TEXT,
+    cost                NUMERIC(10,2) NOT NULL DEFAULT 0,
+    CONSTRAINT fk_maint_vehicle FOREIGN KEY (vehicle_id) REFERENCES car_rental.vehicles(vehicle_id),
+    CONSTRAINT chk_maint_cost   CHECK (cost >= 0)              -- maintenance cost cannot be negative
+);
+
+
+-- ============================================================
+-- ALTER TABLE OPERATIONS (7 operations with explanatory comments)
+-- ============================================================
+
+-- 1. brand_name was VARCHAR(20) — too short for names like 'Mercedes-Benz'
+ALTER TABLE car_rental.brands
+    ALTER COLUMN brand_name TYPE VARCHAR(50);
+
+-- 2. phone in customers was VARCHAR(20) — international formats like +7 (701) 123-45-67 need more space
+ALTER TABLE car_rental.customers
+    ALTER COLUMN phone TYPE VARCHAR(30);
+
+-- 3. position in employees was VARCHAR(20) — too short for 'Senior Fleet Manager'
+ALTER TABLE car_rental.employees
+    ALTER COLUMN position TYPE VARCHAR(60);
+
+-- 4. Adding 'notes' column to reservations — needed to record special customer requests
+ALTER TABLE car_rental.reservations
+    ADD COLUMN IF NOT EXISTS notes TEXT;
+
+-- 5. Adding unique constraint on reservations to prevent duplicate bookings
+--    (same customer + same vehicle on the same date)
+ALTER TABLE car_rental.reservations
+    ADD CONSTRAINT uq_reservation UNIQUE (customer_id, vehicle_id, reservation_date);
+
+-- 6. Renaming 'name' to 'first_name' in customers for clarity and consistency with industry standards
+ALTER TABLE car_rental.customers
+    RENAME COLUMN name TO first_name;
+
+-- 7. Renaming 'name' to 'first_name' in employees for the same reason
+ALTER TABLE car_rental.employees
+    RENAME COLUMN name TO first_name;
+
+
+-- ============================================================
+-- TRUNCATE — re-runnable: clear all data before re-inserting
+-- Order: deepest children first to avoid FK violations
+-- ============================================================
+
+TRUNCATE TABLE car_rental.maintenance_records  CASCADE;
+TRUNCATE TABLE car_rental.vehicle_conditions   CASCADE;
+TRUNCATE TABLE car_rental.payments             CASCADE;
+TRUNCATE TABLE car_rental.rentals              CASCADE;
+TRUNCATE TABLE car_rental.reservations         CASCADE;
+TRUNCATE TABLE car_rental.employees            CASCADE;
+TRUNCATE TABLE car_rental.customers            CASCADE;
+TRUNCATE TABLE car_rental.vehicles             CASCADE;
+TRUNCATE TABLE car_rental.models               CASCADE;
+TRUNCATE TABLE car_rental.rental_locations     CASCADE;
+TRUNCATE TABLE car_rental.vehicle_types        CASCADE;
+TRUNCATE TABLE car_rental.brands               CASCADE;
+
+
+-- ============================================================
+-- SAMPLE DATA — 4 realistic rows per table
+-- Parents inserted before children; FKs resolved via subqueries
+-- ============================================================
+
+-- Brands
+INSERT INTO car_rental.brands (brand_name) VALUES
+    ('Toyota'),
+    ('BMW'),
+    ('Hyundai'),
+    ('Mercedes-Benz');
+
+-- Vehicle Types
+INSERT INTO car_rental.vehicle_types (type_name) VALUES
+    ('Sedan'),
+    ('SUV'),
+    ('Minivan'),
+    ('Truck');
+
+-- Rental Locations
+INSERT INTO car_rental.rental_locations (location_name, address) VALUES
+    ('Almaty Airport',    '050062, Almaty, Airport Road 1'),
+    ('Astana Center',     '010000, Astana, Mangilik El Ave 55'),
+    ('Atyrau Office',     '060002, Atyrau, Satpaev Str 12'),
+    ('Shymkent Branch',   '160000, Shymkent, Tauke Khan Ave 3');
+
+-- Models (FK resolved via subquery)
+INSERT INTO car_rental.models (brand_id, model_name) VALUES
+    ((SELECT brand_id FROM car_rental.brands WHERE brand_name = 'Toyota'),        'Camry'),
+    ((SELECT brand_id FROM car_rental.brands WHERE brand_name = 'Toyota'),        'Land Cruiser 200'),
+    ((SELECT brand_id FROM car_rental.brands WHERE brand_name = 'BMW'),           '5 Series'),
+    ((SELECT brand_id FROM car_rental.brands WHERE brand_name = 'Mercedes-Benz'), 'GLE 350');
+
+-- Vehicles (all FKs resolved via subquery)
+INSERT INTO car_rental.vehicles (type_id, location_id, model_id, year, license_plate, daily_rate, status) VALUES
+    (
+        (SELECT type_id     FROM car_rental.vehicle_types    WHERE type_name    = 'Sedan'),
+        (SELECT location_id FROM car_rental.rental_locations WHERE location_name = 'Almaty Airport'),
+        (SELECT model_id    FROM car_rental.models           WHERE model_name   = 'Camry'),
+        2023, 'A001AA', 25000.00, 'available'
+    ),
+    (
+        (SELECT type_id     FROM car_rental.vehicle_types    WHERE type_name    = 'SUV'),
+        (SELECT location_id FROM car_rental.rental_locations WHERE location_name = 'Almaty Airport'),
+        (SELECT model_id    FROM car_rental.models           WHERE model_name   = 'Land Cruiser 200'),
+        2022, 'B002BB', 60000.00, 'rented'
+    ),
+    (
+        (SELECT type_id     FROM car_rental.vehicle_types    WHERE type_name    = 'Sedan'),
+        (SELECT location_id FROM car_rental.rental_locations WHERE location_name = 'Astana Center'),
+        (SELECT model_id    FROM car_rental.models           WHERE model_name   = '5 Series'),
+        2024, 'C003CC', 45000.00, 'available'
+    ),
+    (
+        (SELECT type_id     FROM car_rental.vehicle_types    WHERE type_name    = 'SUV'),
+        (SELECT location_id FROM car_rental.rental_locations WHERE location_name = 'Atyrau Office'),
+        (SELECT model_id    FROM car_rental.models           WHERE model_name   = 'GLE 350'),
+        2023, 'D004DD', 70000.00, 'available'
+    );
+
+-- Customers
+INSERT INTO car_rental.customers (surname, first_name, email, phone, driver_license) VALUES
+    ('Bekzatov',  'Amir',    'amir.bekzatov@gmail.com',  '+7 701 123 4567', 'KZ-DL-001122'),
+    ('Seitkali',  'Zarina',  'zarina.s@mail.ru',         '+7 702 234 5678', 'KZ-DL-003344'),
+    ('Omarov',    'Daniyar', 'daniyar.o@gmail.com',      '+7 707 345 6789', 'KZ-DL-005566'),
+    ('Nurlanova', 'Aizat',   'aizat.n@gmail.com',        '+7 705 456 7890', 'KZ-DL-007788');
+
+-- Employees
+INSERT INTO car_rental.employees (location_id, surname, first_name, position, salary) VALUES
+    (
+        (SELECT location_id FROM car_rental.rental_locations WHERE location_name = 'Almaty Airport'),
+        'Akhmetov', 'Kanat', 'Fleet Manager', 280000.00
+    ),
+    (
+        (SELECT location_id FROM car_rental.rental_locations WHERE location_name = 'Astana Center'),
+        'Bekova', 'Ainur', 'Rental Agent', 190000.00
+    ),
+    (
+        (SELECT location_id FROM car_rental.rental_locations WHERE location_name = 'Atyrau Office'),
+        'Tulegenov', 'Yerlan', 'Senior Agent', 220000.00
+    ),
+    (
+        (SELECT location_id FROM car_rental.rental_locations WHERE location_name = 'Shymkent Branch'),
+        'Dzhaksybekov', 'Marat', 'Branch Manager', 310000.00
+    );
+
+-- Reservations
+INSERT INTO car_rental.reservations (customer_id, vehicle_id, reservation_date, status, notes) VALUES
+    (
+        (SELECT customer_id FROM car_rental.customers WHERE email = 'amir.bekzatov@gmail.com'),
+        (SELECT vehicle_id  FROM car_rental.vehicles  WHERE license_plate = 'A001AA'),
+        '2026-04-21', 'confirmed', 'Needs child seat'
+    ),
+    (
+        (SELECT customer_id FROM car_rental.customers WHERE email = 'zarina.s@mail.ru'),
+        (SELECT vehicle_id  FROM car_rental.vehicles  WHERE license_plate = 'C003CC'),
+        '2026-04-22', 'pending', NULL
+    ),
+    (
+        (SELECT customer_id FROM car_rental.customers WHERE email = 'daniyar.o@gmail.com'),
+        (SELECT vehicle_id  FROM car_rental.vehicles  WHERE license_plate = 'D004DD'),
+        '2026-04-23', 'confirmed', 'Airport pickup requested'
+    ),
+    (
+        (SELECT customer_id FROM car_rental.customers WHERE email = 'aizat.n@gmail.com'),
+        (SELECT vehicle_id  FROM car_rental.vehicles  WHERE license_plate = 'B002BB'),
+        '2026-04-24', 'pending', NULL
+    );
+
+-- Rentals
+INSERT INTO car_rental.rentals (customer_id, vehicle_id, employee_id, start_date, end_date) VALUES
+    (
+        (SELECT customer_id FROM car_rental.customers WHERE email = 'amir.bekzatov@gmail.com'),
+        (SELECT vehicle_id  FROM car_rental.vehicles  WHERE license_plate = 'A001AA'),
+        (SELECT employee_id FROM car_rental.employees WHERE surname = 'Akhmetov'),
+        '2026-04-21', '2026-04-25'
+    ),
+    (
+        (SELECT customer_id FROM car_rental.customers WHERE email = 'zarina.s@mail.ru'),
+        (SELECT vehicle_id  FROM car_rental.vehicles  WHERE license_plate = 'C003CC'),
+        (SELECT employee_id FROM car_rental.employees WHERE surname = 'Bekova'),
+        '2026-04-22', '2026-04-27'
+    ),
+    (
+        (SELECT customer_id FROM car_rental.customers WHERE email = 'daniyar.o@gmail.com'),
+        (SELECT vehicle_id  FROM car_rental.vehicles  WHERE license_plate = 'D004DD'),
+        (SELECT employee_id FROM car_rental.employees WHERE surname = 'Tulegenov'),
+        '2026-04-23', NULL
+    ),
+    (
+        (SELECT customer_id FROM car_rental.customers WHERE email = 'aizat.n@gmail.com'),
+        (SELECT vehicle_id  FROM car_rental.vehicles  WHERE license_plate = 'B002BB'),
+        (SELECT employee_id FROM car_rental.employees WHERE surname = 'Dzhaksybekov'),
+        '2026-04-20', '2026-04-24'
+    );
+
+-- Payments (tax is auto-computed by GENERATED column — do NOT insert tax manually)
+INSERT INTO car_rental.payments (rental_id, amount, payment_date, method) VALUES
+    (
+        (SELECT rental_id FROM car_rental.rentals
+         WHERE customer_id = (SELECT customer_id FROM car_rental.customers WHERE email = 'amir.bekzatov@gmail.com')
+           AND start_date = '2026-04-21'),
+        100000.00, '2026-04-21', 'card'
+    ),
+    (
+        (SELECT rental_id FROM car_rental.rentals
+         WHERE customer_id = (SELECT customer_id FROM car_rental.customers WHERE email = 'zarina.s@mail.ru')
+           AND start_date = '2026-04-22'),
+        225000.00, '2026-04-22', 'online'
+    ),
+    (
+        (SELECT rental_id FROM car_rental.rentals
+         WHERE customer_id = (SELECT customer_id FROM car_rental.customers WHERE email = 'daniyar.o@gmail.com')
+           AND start_date = '2026-04-23'),
+        70000.00, '2026-04-23', 'cash'
+    ),
+    (
+        (SELECT rental_id FROM car_rental.rentals
+         WHERE customer_id = (SELECT customer_id FROM car_rental.customers WHERE email = 'aizat.n@gmail.com')
+           AND start_date = '2026-04-20'),
+        240000.00, '2026-04-20', 'card'
+    );
+
+-- Vehicle Conditions
+INSERT INTO car_rental.vehicle_conditions (vehicle_id, check_date, condition_status, notes) VALUES
+    ((SELECT vehicle_id FROM car_rental.vehicles WHERE license_plate = 'A001AA'), '2026-04-20', 'Good',      'No scratches, full tank'),
+    ((SELECT vehicle_id FROM car_rental.vehicles WHERE license_plate = 'B002BB'), '2026-04-19', 'Fair',      'Minor scratch on rear bumper'),
+    ((SELECT vehicle_id FROM car_rental.vehicles WHERE license_plate = 'C003CC'), '2026-04-21', 'Excellent', 'Freshly serviced'),
+    ((SELECT vehicle_id FROM car_rental.vehicles WHERE license_plate = 'D004DD'), '2026-04-18', 'Good',      'Tires checked, oil changed');
+
+-- Maintenance Records
+INSERT INTO car_rental.maintenance_records (vehicle_id, check_date, condition_status, notes, cost) VALUES
+    ((SELECT vehicle_id FROM car_rental.vehicles WHERE license_plate = 'B002BB'), '2026-03-15', 'Repaired', 'Rear bumper replaced after accident',   45000.00),
+    ((SELECT vehicle_id FROM car_rental.vehicles WHERE license_plate = 'A001AA'), '2026-02-10', 'Serviced', 'Oil change and filter replacement',      12000.00),
+    ((SELECT vehicle_id FROM car_rental.vehicles WHERE license_plate = 'C003CC'), '2026-01-25', 'Serviced', 'Full inspection before seasonal rental', 18000.00),
+    ((SELECT vehicle_id FROM car_rental.vehicles WHERE license_plate = 'D004DD'), '2026-04-01', 'Repaired', 'Brake pads replaced',                   27500.00);
+
+
+-- ============================================================
+-- VERIFICATION QUERIES (uncomment to check results)
+-- ============================================================
+
+-- SELECT * FROM car_rental.brands;
+-- SELECT * FROM car_rental.vehicle_types;
+-- SELECT * FROM car_rental.rental_locations;
+-- SELECT * FROM car_rental.models;
+-- SELECT * FROM car_rental.vehicles;
+-- SELECT * FROM car_rental.customers;
+-- SELECT * FROM car_rental.employees;
+-- SELECT * FROM car_rental.reservations;
+-- SELECT * FROM car_rental.rentals;
+-- SELECT * FROM car_rental.payments;
+-- SELECT * FROM car_rental.vehicle_conditions;
+-- SELECT * FROM car_rental.maintenance_records;
