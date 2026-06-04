@@ -1,0 +1,209 @@
+order_id,order_date,customer_id,country,category,product,quantity,unit_price,discount
+1001,2025-05-07,,GERMANY,Monitors,View 24,6,,
+1002,2025-07-24,28,Germany,Accessories,Webcam HD,3,59.99,0.1
+1003,2025-02-16,33,France,Phones,Pixela 8,1,799.0,0.05
+1004,2025-12-15,11, France,Laptops,ProBook 15,4,899.0,0.2
+1005,2025-08-28,25,Kazakhstan,Laptops,EduBook 13,5,549.0,0.1
+1006,2025-02-28,1,UK,Accessories,Webcam HD,6,59.99,0.15
+1007,2025-08-11,8, kazakhstan ,Accessories,USB-C Cable,2,9.99,0.0
+1008,2025-04-02,17,Germany,Monitors,View 24,5,179.0,0.1
+1009,2025-04-12,33,France,Laptops,GamerX 17,2,1799.0,0.1
+1010,2025-09-29,35,uk ,Accessories,Mechanical Keyboard,1,89.99,0.2
+1011,2025-07-05,2,UK,Accessories,Laptop Stand,3,39.99,0.0
+1012,2025-02-10,16,Kazakhstan,Phones,Galaxa S,1,999.0,
+1013,2025-03-06,35,uk ,Monitors,View 24,2,179.0,0.2
+1014,2025-09-28,11,France,Monitors,View 32 4K,5,549.0,0.0
+1015,2025-12-20,35,UK,Monitors,View 24,2,179.0,0.2
+1016,2025-09-22,24,uk ,Accessories,Laptop Stand,4,39.99,0.05
+1017,2025-06-23,15,Poland,Laptops,ProBook 15,1,899.0,0.0
+1018,2025-12-29,1,UK,Phones,Pixela 8,6,,0.0
+1019,2025-06-19,5,usa,Laptops,ProBook 15,1,899.0,0.0
+1020,2025-10-04,32,USA,Phones,Lumino Lite,2,349.0,0.0
+1021,2025-07-28,31,USA,Monitors,View 24,2,179.0,0.2
+1022,2025-08-05,28,GERMANY,Laptops,UltraBook 14,4,1199.0,0.0
+1023,2025-12-01,4,Kazakhstan,Monitors,View 32 4K,6,549.0,
+1024,2025-06-23,26,France,Laptops,UltraBook 14,1,1199.0,0.15
+1025,2025-08-18,13,uk ,Phones,Pixela 8,2,799.0,0.1
+1026,2025-05-08,18,Germany,Monitors,View 24,1,179.0,0.05
+1027,2025-11-30,7,Russia,Monitors,View 32 4K,5,549.0,0.0
+1028,2025-07-28,16, kazakhstan ,Laptops,UltraBook 14,4,1199.0,0.0
+1029,2025-03-26,26,France,Monitors,View 24,4,179.0,0.0
+1030,2025-08-21,,Germany,Laptops,EduBook 13,3,549.0,0.2
+1031,2025-09-07,36,Russia,Monitors,View 32 4K,2,549.0,0.15
+1032,2025-10-24,14,Germany,Phones,Lumino Lite,6,349.0,0.0
+1033,2025-10-27,4,Kazakhstan,Laptops,GamerX 17,4,1799.0,0.0
+1034,2025-04-06,33, France,Phones,Galaxa S,1,999.0,
+1035,2025-10-19,26,France,Laptops,ProBook 15,2,,0.0
+1036,2025-10-26,27,UK,Laptops,UltraBook 14,5,1199.0,0.15
+1037,2025-06-10,14,GERMANY,Accessories,USB-C Cable,2,9.99,0.15
+1038,2025-11-27,9,UK,Accessories,Laptop Stand,3,39.99,0.15
+1039,2025-08-23,5,USA,Monitors,View 27 QHD,5,329.0,0.0
+1040,2025-09-17,35,uk ,Laptops,UltraBook 14,3,1199.0,0.0
+1041,2025-07-09,5,USA,Phones,Lumino Lite,3,349.0,0.0
+1042,2025-06-04,35,UK,Phones,Nokio Classic,5,199.0,0.15
+1043,2025-05-16,7,Russia,Laptops,GamerX 17,1,1799.0,0.0
+1044,2025-11-06,18,Germany,Laptops,ProBook 15,2,899.0,0.0
+1045,2025-09-08,17,Germany,Accessories,Mechanical Keyboard,3,89.99,
+1046,2025-05-22,28,GERMANY,Laptops,UltraBook 14,1,1199.0,0.2
+1047,2025-05-15,9,UK,Laptops,GamerX 17,2,1799.0,0.15
+1048,2025-01-05,28,Germany,Monitors,View 32 4K,1,549.0,0.1
+1049,2025-07-09,35,uk ,Laptops,ProBook 15,5,899.0,0.0
+1050,2025-06-07,9,UK,Phones,Nokio Classic,3,199.0,0.0
+1051,2025-05-08,14,Germany,Laptops,GamerX 17,6,1799.0,0.15
+1052,2025-07-28,36,Russia,Laptops,GamerX 17,5,,0.2
+1053,2025-04-01,11,France,Phones,Pixela 8,4,799.0,0.2
+1054,2025-07-30,22,Poland,Laptops,ProBook 15,6,899.0,0.2
+1055,2025-12-26,11, France,Phones,Lumino Lite,1,349.0,0.2
+1056,2025-04-13,31,USA,Monitors,View 24,4,179.0,
+1057,2025-01-13,15,Poland,Accessories,USB-C Cable,6,9.99,0.0
+1058,2025-02-05,22,Poland,Phones,Nokio Classic,3,199.0,0.0
+1059,2025-10-02,,France,Accessories,Webcam HD,3,59.99,0.15
+1060,2025-10-25,17,Germany,Laptops,UltraBook 14,3,1199.0,0.0
+1061,2025-06-26,39,GERMANY,Laptops,UltraBook 14,6,1199.0,0.05
+1062,2025-03-01,39,Germany,Accessories,Laptop Stand,4,39.99,0.1
+1063,2025-08-12,3,Russia,Phones,Lumino Lite,1,349.0,0.15
+1064,2025-12-07,28,GERMANY,Phones,Lumino Lite,3,349.0,0.0
+1065,2025-06-08,20,France,Accessories,Wireless Mouse,6,24.99,0.1
+1066,2025-06-01,26,France,Monitors,View 27 QHD,5,329.0,0.15
+1067,2025-07-14,27,uk ,Phones,Pixela 8,6,799.0,
+1068,2025-01-01,26,France,Phones,Lumino Lite,3,349.0,0.1
+1069,2025-10-24,28,Germany,Accessories,Mechanical Keyboard,5,,0.2
+1070,2025-12-12,29,uk ,Accessories,Laptop Stand,2,39.99,0.05
+1071,2025-02-13,11,France,Monitors,View 32 4K,3,549.0,0.15
+1072,2025-06-08,16,Kazakhstan,Accessories,Wireless Mouse,2,24.99,0.15
+1073,2025-05-06,2,uk ,Phones,Pixela 8,4,799.0,0.0
+1074,2025-10-22,27,UK,Laptops,EduBook 13,2,549.0,0.15
+1075,2025-03-17,26,France,Monitors,View 27 QHD,6,329.0,0.0
+1076,2025-04-01,28,GERMANY,Laptops,UltraBook 14,6,1199.0,0.0
+1077,2025-03-04,36,Russia,Monitors,View 24,4,179.0,0.0
+1078,2025-11-01,34,UK,Phones,Nokio Classic,3,199.0,
+1079,2025-10-08,33, France,Monitors,View 32 4K,4,549.0,0.05
+1080,2025-05-07,29,UK,Phones,Nokio Classic,6,199.0,0.0
+1081,2025-05-03,32,USA,Accessories,Webcam HD,3,59.99,0.15
+1082,2025-05-20,19, France,Monitors,View 24,3,179.0,0.0
+1083,2025-03-19,6,Kazakhstan,Accessories,Webcam HD,2,59.99,0.0
+1084,2025-04-20,10,USA,Monitors,View 32 4K,1,549.0,0.15
+1085,2025-08-27,22,Poland,Monitors,View 27 QHD,4,329.0,0.1
+1086,2025-10-27,27,UK,Laptops,ProBook 15,6,,0.05
+1087,2025-06-30,31,USA,Laptops,EduBook 13,3,549.0,0.0
+1088,2025-10-07,,uk ,Monitors,View 27 QHD,5,329.0,0.15
+1089,2025-08-12,15,Poland,Phones,Nokio Classic,4,199.0,
+1090,2025-12-14,22,Poland,Laptops,EduBook 13,4,549.0,0.15
+1091,2025-10-01,9,uk ,Phones,Nokio Classic,1,199.0,0.1
+1092,2025-01-14,37,France,Monitors,View 32 4K,1,549.0,0.15
+1093,2025-01-26,30,UK,Monitors,View 24,3,179.0,0.0
+1094,2025-06-17,14,GERMANY,Monitors,View 27 QHD,3,329.0,0.05
+1095,2025-02-11,27,UK,Monitors,View 27 QHD,4,329.0,0.0
+1096,2025-11-29,23,Russia,Laptops,UltraBook 14,1,1199.0,0.0
+1097,2025-01-11,16, kazakhstan ,Laptops,UltraBook 14,5,1199.0,0.0
+1098,2025-12-09,9,UK,Phones,Pixela 8,1,799.0,0.05
+1099,2025-07-08,17,Germany,Phones,Nokio Classic,2,199.0,0.2
+1100,2025-10-24,20, France,Laptops,ProBook 15,1,899.0,
+1101,2025-04-12,25,Kazakhstan,Accessories,Webcam HD,1,59.99,0.05
+1102,2025-12-17,20,France,Phones,Galaxa S,5,999.0,0.2
+1103,2025-08-08,23,Russia,Laptops,UltraBook 14,6,,0.1
+1104,2025-06-24,33,France,Accessories,Wireless Mouse,1,24.99,0.15
+1105,2025-07-05,7,Russia,Monitors,View 27 QHD,6,329.0,0.05
+1106,2025-04-01,10,usa,Monitors,View 32 4K,6,549.0,0.05
+1107,2025-09-05,35,UK,Accessories,Webcam HD,4,59.99,0.2
+1108,2025-06-15,38,Russia,Monitors,View 32 4K,2,549.0,0.0
+1109,2025-08-26,29,uk ,Laptops,GamerX 17,5,1799.0,0.0
+1110,2025-06-16,2,UK,Monitors,View 27 QHD,2,329.0,0.05
+1111,2025-05-13,23,Russia,Monitors,View 24,3,179.0,
+1112,2025-01-06,18,GERMANY,Accessories,Webcam HD,5,59.99,0.1
+1113,2025-07-28,16,Kazakhstan,Phones,Galaxa S,4,999.0,0.15
+1114,2025-01-09,32,USA,Phones,Nokio Classic,1,199.0,0.05
+1115,2025-05-05,26, France,Accessories,Mechanical Keyboard,3,89.99,0.15
+1116,2025-06-26,36,Russia,Accessories,Laptop Stand,4,39.99,0.1
+1117,2025-06-06,,UK,Accessories,USB-C Cable,3,9.99,0.0
+1118,2025-03-03,13,uk ,Phones,Galaxa S,6,999.0,0.0
+1119,2025-09-05,14,Germany,Phones,Pixela 8,3,799.0,0.15
+1120,2025-04-27,13,UK,Accessories,Wireless Mouse,3,,0.0
+1121,2025-10-01,1,uk ,Phones,Lumino Lite,2,349.0,0.15
+1122,2025-05-30,4,Kazakhstan,Accessories,Wireless Mouse,6,24.99,
+1123,2025-01-07,7,Russia,Phones,Nokio Classic,5,199.0,0.2
+1124,2025-06-24,31,usa,Accessories,Laptop Stand,2,39.99,0.05
+1125,2025-02-03,31,USA,Laptops,GamerX 17,4,1799.0,0.0
+1126,2025-12-18,37,France,Monitors,View 24,1,179.0,0.15
+1127,2025-02-13,37, France,Phones,Pixela 8,2,799.0,0.0
+1128,2025-11-13,39,Germany,Laptops,EduBook 13,2,549.0,0.1
+1129,2025-10-29,29,UK,Monitors,View 27 QHD,4,329.0,0.0
+1130,2025-11-09,40, France,Accessories,Webcam HD,6,59.99,0.0
+1131,2025-12-05,14,Germany,Laptops,ProBook 15,1,899.0,0.0
+1132,2025-02-08,12,Poland,Phones,Pixela 8,2,799.0,0.1
+1133,2025-11-01,29,uk ,Laptops,EduBook 13,4,549.0,
+1134,2025-12-28,15,Poland,Accessories,Wireless Mouse,3,24.99,0.0
+1135,2025-11-17,15,Poland,Monitors,View 24,5,179.0,0.0
+1136,2025-04-26,8, kazakhstan ,Phones,Nokio Classic,6,199.0,0.1
+1137,2025-01-31,10,USA,Phones,Lumino Lite,2,,0.0
+1138,2025-08-13,37,France,Accessories,Webcam HD,1,59.99,0.0
+1139,2025-07-26,20, France,Monitors,View 32 4K,3,549.0,0.15
+1140,2025-01-21,6,Kazakhstan,Monitors,View 27 QHD,4,329.0,0.1
+1141,2025-02-16,17,Germany,Accessories,Webcam HD,2,59.99,0.0
+1142,2025-03-31,37, France,Laptops,GamerX 17,4,1799.0,0.0
+1143,2025-08-12,12,Poland,Monitors,View 27 QHD,6,329.0,0.1
+1144,2025-07-29,31,USA,Monitors,View 24,3,179.0,
+1145,2025-07-30,11, France,Accessories,Wireless Mouse,6,24.99,0.0
+1146,2025-10-09,,France,Monitors,View 27 QHD,1,329.0,0.2
+1147,2025-06-15,21,Germany,Monitors,View 24,1,179.0,0.0
+1148,2025-10-05,1,uk ,Monitors,View 32 4K,4,549.0,0.15
+1149,2025-07-05,13,UK,Monitors,View 24,5,179.0,0.1
+1150,2025-01-27,29,UK,Monitors,View 32 4K,2,549.0,0.2
+1151,2025-08-13,9,uk ,Accessories,Webcam HD,6,59.99,0.0
+1152,2025-11-08,2,UK,Monitors,View 24,2,179.0,0.15
+1153,2025-10-10,36,Russia,Phones,Lumino Lite,4,349.0,0.0
+1154,2025-03-02,8, kazakhstan ,Laptops,ProBook 15,6,,0.05
+1155,2025-12-28,19,France,Phones,Nokio Classic,3,199.0,
+1156,2025-08-22,31,USA,Monitors,View 27 QHD,5,329.0,0.0
+1157,2025-09-18,13,uk ,Phones,Nokio Classic,6,199.0,0.1
+1158,2025-08-01,18,Germany,Phones,Galaxa S,3,999.0,0.2
+1159,2025-06-02,19,France,Accessories,Wireless Mouse,5,24.99,0.15
+1160,2025-09-05,29,uk ,Monitors,View 24,3,179.0,0.1
+1161,2025-08-22,35,UK,Accessories,Webcam HD,3,59.99,0.05
+1162,2025-04-30,37,France,Phones,Pixela 8,4,799.0,0.05
+1163,2025-07-15,31,usa,Laptops,GamerX 17,4,1799.0,0.15
+1164,2025-09-15,3,Russia,Phones,Nokio Classic,5,199.0,0.0
+1165,2025-09-27,29,UK,Accessories,Wireless Mouse,4,24.99,0.0
+1166,2025-12-02,27,uk ,Laptops,ProBook 15,2,899.0,
+1167,2025-11-16,17,Germany,Laptops,EduBook 13,6,549.0,0.0
+1168,2025-06-18,6,Kazakhstan,Monitors,View 32 4K,6,549.0,0.2
+1169,2025-10-05,32,usa,Monitors,View 27 QHD,1,329.0,0.2
+1170,2025-02-16,19,France,Laptops,ProBook 15,4,899.0,0.0
+1171,2025-12-22,29,UK,Laptops,UltraBook 14,3,,0.0
+1172,2025-01-29,21,GERMANY,Laptops,UltraBook 14,3,1199.0,0.2
+1173,2025-05-06,28,Germany,Accessories,USB-C Cable,5,9.99,0.0
+1174,2025-03-31,12,Poland,Monitors,View 32 4K,1,549.0,0.0
+1175,2025-10-26,, kazakhstan ,Monitors,View 32 4K,2,549.0,0.05
+1176,2025-05-11,17,Germany,Phones,Nokio Classic,6,199.0,0.05
+1177,2025-10-07,19,France,Laptops,EduBook 13,2,549.0,
+1178,2025-06-03,23,Russia,Laptops,EduBook 13,6,549.0,0.1
+1179,2025-06-04,17,Germany,Monitors,View 32 4K,2,549.0,0.05
+1180,2025-07-15,7,Russia,Monitors,View 27 QHD,5,329.0,0.0
+1181,2025-06-01,19, France,Accessories,Webcam HD,1,59.99,0.15
+1182,2025-12-18,1,UK,Monitors,View 27 QHD,6,329.0,0.1
+1183,2025-04-28,19,France,Laptops,EduBook 13,5,549.0,0.2
+1184,2025-05-09,13,uk ,Accessories,Mechanical Keyboard,6,89.99,0.1
+1185,2025-08-14,3,Russia,Phones,Galaxa S,1,999.0,0.0
+1186,2025-06-17,6,Kazakhstan,Accessories,Mechanical Keyboard,6,89.99,0.0
+1187,2025-10-04,13,uk ,Monitors,View 24,3,179.0,0.0
+1188,2025-09-04,17,Germany,Accessories,Mechanical Keyboard,3,,
+1189,2025-03-14,30,UK,Accessories,Wireless Mouse,2,24.99,0.0
+1190,2025-07-22,24,uk ,Monitors,View 32 4K,1,549.0,0.0
+1191,2025-07-08,8,Kazakhstan,Accessories,Webcam HD,6,59.99,0.05
+1192,2025-11-23,25,Kazakhstan,Accessories,Webcam HD,3,59.99,0.2
+1193,2025-11-14,31,usa,Laptops,ProBook 15,5,899.0,0.0
+1194,2025-02-02,15,Poland,Accessories,Webcam HD,6,59.99,0.15
+1195,2025-07-29,20,France,Monitors,View 32 4K,1,549.0,0.15
+1196,2025-09-10,3,Russia,Phones,Galaxa S,1,999.0,0.0
+1197,2025-07-18,35,UK,Laptops,ProBook 15,4,899.0,0.0
+1198,2025-03-21,27,UK,Accessories,Webcam HD,4,59.99,0.1
+1199,2025-05-24,40, France,Laptops,EduBook 13,1,549.0,
+1200,2025-05-01,29,UK,Accessories,Mechanical Keyboard,3,89.99,0.05
+1001,2025-05-07,,GERMANY,Monitors,View 24,6,,
+1002,2025-07-24,28,Germany,Accessories,Webcam HD,3,59.99,0.1
+1003,2025-02-16,33,France,Phones,Pixela 8,1,799.0,0.05
+1004,2025-12-15,11, France,Laptops,ProBook 15,4,899.0,0.2
+1005,2025-08-28,25,Kazakhstan,Laptops,EduBook 13,5,549.0,0.1
+1006,2025-02-28,1,UK,Accessories,Webcam HD,6,59.99,0.15
+1007,2025-08-11,8, kazakhstan ,Accessories,USB-C Cable,2,9.99,0.0
+1008,2025-04-02,17,Germany,Monitors,View 24,5,179.0,0.1
